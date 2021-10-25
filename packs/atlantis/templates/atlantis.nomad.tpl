@@ -1,11 +1,11 @@
 job [[ template "job_name" . ]] {
-    datacenters = [""]
+    datacenters = [ [[ range $idx, $dc := .atlantis.datacenters ]][[if $idx]],[[end]][[ $dc | quote ]][[ end ]] ]
     type        = "system"
     priotity    = 100
 
     vault {
-        policies    = [""]
-        change_mode = "restart"
+        policies    = [[ .atlantis.vault_policies ]]
+        change_mode = [[ .atlantis.vault_change_mode ]]
     }
 
     constraint {
@@ -16,7 +16,7 @@ job [[ template "job_name" . ]] {
 
         network {
             port "ui" {
-                static = 80
+                static = [[ .atlantis.ui_port ]]
                 to     = 4141
             }
         }
@@ -33,8 +33,8 @@ job [[ template "job_name" . ]] {
             }
 
             resources {
-                cpu    = 1024
-                memory = 1024
+                cpu    = [[ .atlantis.resources.cpu ]]
+                memory = [[ .atlantis.resources.memory ]]
             }
         }
 

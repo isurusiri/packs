@@ -27,3 +27,21 @@ variable "resources" {
     memory = 256
   }
 }
+
+variable "vault_policies" {
+  description = "Vault policies required by all tasks of the Atlantis job."
+  type        = list(string)
+  default     = [""]
+}
+
+variable "vault_change_mode" {
+  description = "Vault policy change mode."
+  type        = string
+  default     = "restart"
+}
+
+variable "ui_port" {
+  description = "Port that Atlantis UI should be exposed."
+  type        = number
+  default     = 80
+}
